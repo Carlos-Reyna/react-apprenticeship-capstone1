@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.styles.css';
 import { Container, Form, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
@@ -11,7 +11,17 @@ const HeaderButton = styled.button`
   margin: 0;
 `;
 
-function Header() {
+function Header({ searchTerm, setSearchTerm, handleSearch }) {
+  const [switchValue, setSwitchValue] = useState(false);
+
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSwitch = () => {
+    setSwitchValue(!switchValue);
+  };
+
   return (
     <div className="header">
       <Container className="form-search">
@@ -23,6 +33,9 @@ function Header() {
                   type="text"
                   data-testid="header-input-search"
                   placeholder="..."
+                  value={searchTerm}
+                  onChange={(e) => handleChange(e)}
+                  onKeyPress={(e) => handleSearch(e)}
                 />
               </Form.Group>
             </Form>
@@ -34,6 +47,8 @@ function Header() {
                 id="custom-switch"
                 data-testid="header-input-switch"
                 label="Toggle Style"
+                checked={switchValue}
+                onChange={handleSwitch}
                 style={{ float: 'right' }}
               />
             </Form>
