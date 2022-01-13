@@ -13,7 +13,7 @@ function VideoList(props) {
     props.handleSelectVideo(video);
   };
 
-  return (
+return (
     <Row>
       {props.videos.map((video) => {
         return (

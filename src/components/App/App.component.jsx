@@ -15,6 +15,7 @@ function App() {
 
   return (
     <Layout>
+
       <Header
         searchTerm={searchTerm}
         handleSearch={handleSearch}
@@ -25,6 +26,7 @@ function App() {
         performSearch={performSearch}
         setPerformSearch={setPerformSearch}
       />
+
     </Layout>
   );
 }
