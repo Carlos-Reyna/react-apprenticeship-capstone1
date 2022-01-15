@@ -12,6 +12,7 @@ const HeaderButton = styled.button`
   margin: 0;
 `;
 
+
 function Header() {
   const [searchValue, setSearchValue] = useState('');
   const thisContext = useContext(appContext);
@@ -25,6 +26,7 @@ function Header() {
 
   const handleSwitch = () => {
     setSwitchValue(!switchValue);
+
     toggleStyles(!switchValue);
   };
 
@@ -35,6 +37,7 @@ function Header() {
       }
     }
   };
+
   return (
     <div className="header">
       <Container className="form-search">
@@ -46,9 +49,11 @@ function Header() {
                   type="text"
                   data-testid="header-input-search"
                   placeholder="..."
+
                   value={searchValue}
                   onChange={(e) => handleChange(e)}
                   onKeyPress={(e) => handleKeyPress(e)}
+
                 />
               </Form.Group>
             </Form>
