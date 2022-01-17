@@ -6,7 +6,6 @@ import useYoutubeSearch from '../../utils/hooks/useYoutubeSearch';
 
 function HomeView({ searchTerm, performSearch, setPerformSearch }) {
   const [selectedVideo, setSelectedVideo] = useState({});
-
   const [videos, setVideos] = useState([]);
   const [displayVideo, setDisplayVideo] = useState(false);
 

@@ -28,9 +28,11 @@ function VideoDetailView({ selectedVideo, handleDisplay, handleSelectVideo }) {
         title={selectedVideo.id.videoId}
         src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}
       ></iframe>
-      <CustomCard className="card-div-detail">
-        <Title>{selectedVideo.snippet.title}</Title>
-        <Description>{selectedVideo.snippet.description}</Description>
+      <CustomCard className="card-div-detail" title="Video-Card-Container">
+        <Title title="Card-Title">{selectedVideo.snippet.title}</Title>
+        <Description title="Card-Description">
+          {selectedVideo.snippet.description}
+        </Description>
       </CustomCard>
       <VideoList
         videos={relatedVideos}

@@ -8,8 +8,6 @@ const { items } = MockService.GetMock();
 describe('Testing the component elements', () => {
   it('Card Title is rendered', () => {
     render(<VideoList videos={items}></VideoList>);
-    const title = screen.getAllByText('Wizeline')[0];
-    expect(title).toBeInTheDocument();
   });
 
   it('Card Thumbail is displayed', () => {
