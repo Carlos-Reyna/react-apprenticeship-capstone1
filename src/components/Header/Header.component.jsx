@@ -5,6 +5,7 @@ import appContext from '../../context/appContext';
 import Login from '../login/Login.component';
 import { useHistory } from 'react-router-dom';
 
+
 function Header() {
   const [searchValue, setSearchValue] = useState('');
   const [switchValue, setSwitchValue] = useState(false);
@@ -46,6 +47,7 @@ function Header() {
   const handleLogout = () => {
     logout();
     navigateURL('home');
+
   };
 
   return (
