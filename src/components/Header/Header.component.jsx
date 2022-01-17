@@ -31,7 +31,7 @@ function Header({ searchTerm, setSearchTerm, handleSearch }) {
               <Form.Group controlId="formSearch">
                 <Form.Control
                   type="text"
-                  data-testid="header-input-search"
+                  title="header-input-search"
                   placeholder="..."
                   value={searchTerm}
                   onChange={(e) => handleChange(e)}
@@ -45,16 +45,17 @@ function Header({ searchTerm, setSearchTerm, handleSearch }) {
               <Form.Check
                 type="switch"
                 id="custom-switch"
+                title="header-input-switch"
                 data-testid="header-input-switch"
                 label="Toggle Style"
-                checked={switchValue}
+                value={switchValue}
                 onChange={handleSwitch}
                 style={{ float: 'right' }}
               />
             </Form>
           </Col>
           <Col sm={1} md={1} className="d-none d-sm-block d-xs-block">
-            <HeaderButton data-testid="header-btn-login">
+            <HeaderButton title="header-button-login">
               <i
                 className="fa fa-user-circle fa-2x"
                 style={{ float: 'right' }}
