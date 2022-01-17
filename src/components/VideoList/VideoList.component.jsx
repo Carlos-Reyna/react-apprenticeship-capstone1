@@ -8,12 +8,16 @@ import {
 } from '../CustomElements/CustomElement.component';
 import './VideoList.styles.css';
 
+
+
+
 function VideoList(props) {
   const handleClick = (video) => {
     props.handleSelectVideo(video);
   };
 
   return (
+
     <Row>
       {props.videos.map((video) => {
         return (
@@ -25,10 +29,12 @@ function VideoList(props) {
             lg={3}
             className="card-container"
           >
+
             <CustomCard
               onClick={() => handleClick(video)}
               elementBackground={props.styles.customCard.backgroundColor}
             >
+
               <VideoThumbnail
                 src={video.snippet.thumbnails.medium.url}
                 title="video-thumbnail"

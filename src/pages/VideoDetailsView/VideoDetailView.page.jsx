@@ -13,13 +13,16 @@ function VideoDetailView({
   handleSelectVideo,
   styles,
 }) {
+
   const [relatedVideos, setRelatedVideos] = useState([]);
 
   useYoutubeRelatedSearch(selectedVideo, setRelatedVideos);
 
   return (
     <div>
+
       <Description color={styles.customCard.fontColor}>
+
         <a href="#!" onClick={handleDisplay}>
           Home{' '}
         </a>
@@ -41,11 +44,13 @@ function VideoDetailView({
         <Title fontColor={styles.customCard.fontColor}>
           {selectedVideo.snippet.title}
         </Title>
+
         <Description>{selectedVideo.snippet.description}</Description>
       </CustomCard>
       <VideoList
         videos={relatedVideos}
         handleSelectVideo={handleSelectVideo}
+
         styles={styles}
       ></VideoList>
     </div>

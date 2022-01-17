@@ -12,6 +12,7 @@ export const Title = styled.div`
   text-overflow: ellipsis;
   color: ${(props) => props.fontColor || '#fff'};
 `;
+
 export const Description = styled.div`
   margin: auto;
   padding: 2%;
