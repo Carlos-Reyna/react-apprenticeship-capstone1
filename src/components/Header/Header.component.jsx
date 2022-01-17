@@ -28,27 +28,26 @@ function Header() {
     toggleStyles(!switchValue);
   };
 
-  const handleKeyPress = (target) => {
-    if (target.charCode === 13) {
-      if (searchTerm !== searchValue) {
-        setSearchTerm(searchValue);
-      }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (searchTerm !== searchValue) {
+      setSearchTerm(searchValue);
     }
   };
+
   return (
     <div className="header">
       <Container className="form-search">
         <Row>
           <Col xs={12} sm={6} md={6}>
-            <Form>
+            <Form onSubmit={(e) => handleSubmit(e)}>
               <Form.Group controlId="formSearch">
                 <Form.Control
                   type="text"
-                  data-testid="header-input-search"
+                  title="header-input-search"
                   placeholder="..."
                   value={searchValue}
                   onChange={(e) => handleChange(e)}
-                  onKeyPress={(e) => handleKeyPress(e)}
                 />
               </Form.Group>
             </Form>
@@ -60,14 +59,15 @@ function Header() {
                 id="custom-switch"
                 data-testid="header-input-switch"
                 label="Toggle Style"
-                checked={switchValue}
+                value={switchValue}
+                title="header-input-switch"
                 onChange={handleSwitch}
                 style={{ float: 'right' }}
               />
             </Form>
           </Col>
           <Col sm={1} md={1} className="d-none d-sm-block d-xs-block">
-            <HeaderButton data-testid="header-btn-login">
+            <HeaderButton title="header-button-login">
               <i
                 className="fa fa-user-circle fa-2x"
                 style={{ float: 'right' }}

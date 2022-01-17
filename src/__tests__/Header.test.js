@@ -1,39 +1,105 @@
-import { screen, render, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import Header from '../components/Header/Header.component';
 import React from 'react';
+import AppContext from '../context/appContext';
+
+const toggleStyles = (value) => {
+  return value;
+};
+
+const setSearchTerm = (value) => {
+  initialState.searchTerm = value;
+};
+
+let initialState = {
+  searchTerm: '',
+  videos: [],
+  styles: {
+    customCard: { backgroundColor: '#fff', fontColor: '#000' },
+    layout: { backgroundColor: 'antiquewhite', fontColor: '#000000' },
+  },
+  toggleStyles,
+  setSearchTerm,
+};
 
 describe('Testing the component elements', () => {
-  const setState = jest.fn();
-
-  render(<Header></Header>);
-  it('Text input should be present', () => {
-    const input = screen.getByTestId('header-input-search');
-    expect(input).toBeInTheDocument();
+  test('Text input should be present', () => {
+    const { getByTitle } = render(
+      <AppContext.Provider value={initialState}>
+        <Header />
+      </AppContext.Provider>
+    );
+    const searchInput = getByTitle('header-input-search');
+    expect(searchInput).toBeInTheDocument();
   });
 
-  it('Login button should be present', () => {
-    render(<Header></Header>);
-    const button = screen.getByTestId('header-btn-login');
-    expect(button).toBeInTheDocument();
-  });
-
-  it('Switch input should be present', () => {
-    render(<Header></Header>);
-    const switchInput = screen.getByTestId('header-input-switch');
+  test('Login button should be present', () => {
+    const { getByTitle } = render(
+      <AppContext.Provider value={initialState}>
+        <Header />
+      </AppContext.Provider>
+    );
+    const switchInput = getByTitle('header-input-switch');
     expect(switchInput).toBeInTheDocument();
   });
 
-  it('Switch input should have default value', () => {
-    render(<Header></Header>);
-    const switchInput = screen.getByTestId('header-input-switch');
-    expect(switchInput.value).toEqual('on');
+  test('Switch input should be present', () => {
+    const { getByTitle } = render(
+      <AppContext.Provider value={initialState}>
+        <Header />
+      </AppContext.Provider>
+    );
+    const button = getByTitle('header-button-login');
+    expect(button).toBeInTheDocument();
   });
 
-  it('Search input should change value', () => {
-    render(<Header setSearchTerm={setState}></Header>);
-    const input = screen.getByTestId('header-input-search');
+  test('Switch value changed to on', () => {
+    const { getByTitle, getAllByRole } = render(
+      <AppContext.Provider value={initialState}>
+        <Header />
+      </AppContext.Provider>
+    );
+    const switchInput = getByTitle('header-input-switch');
+    fireEvent.click(switchInput);
+    const switchElement = getAllByRole('checkbox')[0]; //There will be only one checkbox on this component
+    expect(switchElement.value).toEqual('true'); //true in string is the default value for true on this react bootstrap element
+  });
 
-    fireEvent.change(input, { target: { value: '23' } });
-    expect(input.value).toEqual('23');
+  test('Switch value changed to off', () => {
+    const { getByTitle, getAllByRole } = render(
+      <AppContext.Provider value={initialState}>
+        <Header />
+      </AppContext.Provider>
+    );
+    const switchInput = getByTitle('header-input-switch');
+    fireEvent.click(switchInput);
+    fireEvent.click(switchInput);
+    const switchElement = getAllByRole('checkbox')[0]; //There will be only one checkbox on this component
+    expect(switchElement.value).toEqual('false'); //false is the string is the default value for false on this react bootstrap element
+  });
+
+  test('Text input changes', () => {
+    const { getByTitle } = render(
+      <AppContext.Provider value={initialState}>
+        <Header />
+      </AppContext.Provider>
+    );
+
+    const searchInput = getByTitle('header-input-search');
+    fireEvent.change(searchInput, { target: { value: 'wizeline' } });
+
+    expect(searchInput.value).toEqual('wizeline');
+  });
+
+  test('Text form submit', () => {
+    const { getByTitle } = render(
+      <AppContext.Provider value={initialState}>
+        <Header />
+      </AppContext.Provider>
+    );
+    const searchInput = getByTitle('header-input-search');
+    fireEvent.change(searchInput, { target: { value: 'wizeline' } });
+    fireEvent.submit(searchInput);
+    expect(initialState.searchTerm).toEqual('wizeline');
   });
 });

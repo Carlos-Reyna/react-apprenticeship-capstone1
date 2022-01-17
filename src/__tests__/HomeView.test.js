@@ -1,27 +1,32 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import HomeView from '../pages/HomeView/Homeview.page';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import Header from '../components/Header/Header.component';
-import VideoList from '../components/VideoList/VideoList.component';
+import AppContext from '../context/appContext';
+const toggleStyles = (value) => {
+  return value;
+};
 
-configure({ adapter: new Adapter() });
+const setSearchTerm = (value) => {
+  initialState.searchTerm = value;
+};
+
+let initialState = {
+  searchTerm: '',
+  videos: [],
+  styles: {
+    customCard: { backgroundColor: '#fff', fontColor: '#000' },
+    layout: { backgroundColor: 'antiquewhite', fontColor: '#000000' },
+  },
+  toggleStyles,
+  setSearchTerm,
+};
 
 describe('Testing the component elements', () => {
-  it('Component is rendered', () => {
-    const wrapper = shallow(<HomeView />);
-    const component = wrapper.find(Header);
-    const renderProp = shallow(component.prop('children')());
-    const children = renderProp.find('div');
-    expect(children.exists()).toBe(true);
-    // expect(component.exists()).toEqual(true);  //return true
-    // expect(wrapper.containsMatchingElement(<Header />)).toEqual(true);
-  });
-
-  it('Component is rendered', () => {
-    const wrapper = shallow(<HomeView />);
-    expect(wrapper.containsMatchingElement(<VideoList videos={[]} />)).toEqual(
-      true
+  test('Component is rendered', () => {
+    render(
+      <AppContext.Provider value={initialState}>
+        <HomeView />
+      </AppContext.Provider>
     );
   });
 });

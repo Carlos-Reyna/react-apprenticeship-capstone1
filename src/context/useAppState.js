@@ -23,7 +23,6 @@ function AppState(props) {
   };
 
   const toggleStyles = (value) => {
-    console.log(value);
     let styles = {
       customCard: { backgroundColor: '#1C1C1C', fontColor: '#B9B8B8' },
       layout: { backgroundColor: '#1C1C1C', fontColor: '#000000' },

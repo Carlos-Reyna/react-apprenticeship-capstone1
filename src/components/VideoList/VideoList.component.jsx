@@ -31,13 +31,18 @@ function VideoList(props) {
             >
               <VideoThumbnail
                 src={video.snippet.thumbnails.medium.url}
-                data-testid="header-component-thumbnail"
+                title="video-thumbnail"
               ></VideoThumbnail>
 
-              <Title fontColor={props.styles.customCard.fontColor}>
+              <Title
+                fontColor={props.styles.customCard.fontColor}
+                title="video-title"
+              >
                 {video.snippet.title}
               </Title>
-              <Description>{video.snippet.description}</Description>
+              <Description title="video-description">
+                {video.snippet.description}
+              </Description>
             </CustomCard>
           </Col>
         );
