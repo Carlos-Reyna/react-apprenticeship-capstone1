@@ -15,5 +15,4 @@ export default function useYoutubeSearch(
     }
     getVideos();
   }, [searchTerm]);
-
 }

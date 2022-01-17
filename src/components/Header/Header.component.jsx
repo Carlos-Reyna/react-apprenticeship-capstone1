@@ -12,7 +12,6 @@ const HeaderButton = styled.button`
   margin: 0;
 `;
 
-
 function Header() {
   const [searchValue, setSearchValue] = useState('');
   const thisContext = useContext(appContext);

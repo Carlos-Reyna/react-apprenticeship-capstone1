@@ -25,9 +25,7 @@ function HomeView() {
     getVideos();
   }, [performSearch]);
 
-
   useYoutubeSearch(searchTerm, setVideos, setDisplayVideo);
-
 
   const handleSelectVideo = (video) => {
     setSelectedVideo(video);
@@ -47,14 +45,12 @@ function HomeView() {
             handleDisplay={handleDisplay}
             handleSelectVideo={handleSelectVideo}
             styles={styles}
-
           ></VideoDetailsView>
         ) : (
           <VideoList
             videos={videos}
             handleSelectVideo={handleSelectVideo}
             styles={styles}
-
           ></VideoList>
         )}
       </Col>
