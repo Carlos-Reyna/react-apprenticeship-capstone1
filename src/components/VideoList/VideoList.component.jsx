@@ -10,7 +10,6 @@ import './VideoList.styles.css';
 import { useHistory } from 'react-router-dom';
 
 function VideoList(props) {
-
   let history = useHistory();
 
   const handleClick = (video) => {
@@ -26,7 +25,6 @@ function VideoList(props) {
   };
 
   return (
-
     <Row>
       {props.videos.map((video) => {
         return (
@@ -44,7 +42,6 @@ function VideoList(props) {
               onClick={() => handleClick(video)}
               elementBackground={props.styles.customCard.backgroundColor}
             >
-
               <VideoThumbnail
                 src={video.snippet.thumbnails.medium.url}
                 data-testid="header-component-thumbnail"
@@ -60,7 +57,6 @@ function VideoList(props) {
               <Description title="video-description">
                 {video.snippet.description}
               </Description>
-
             </CustomCard>
           </Col>
         );

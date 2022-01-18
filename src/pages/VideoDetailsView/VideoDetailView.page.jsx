@@ -51,5 +51,4 @@ function useQuery() {
   return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-
 export default VideoDetailView;

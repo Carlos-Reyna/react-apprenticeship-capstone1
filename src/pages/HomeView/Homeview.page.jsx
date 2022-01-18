@@ -11,9 +11,6 @@ function HomeView() {
 
   const { styles, videos, setVideos, searchTerm, userProps } = thisContext;
 
-
-
-
   useEffect(() => {
     const getVideos = () => {
       if (performSearch) {
@@ -25,7 +22,6 @@ function HomeView() {
 
   useYoutubeSearch(searchTerm, setVideos);
 
-
   return (
     <Container style={{ paddingBottom: '5%' }}>
       <Col xs={12} sm={12} md={12}>
@@ -35,7 +31,6 @@ function HomeView() {
           privateRoute={false}
           userId={userProps.id}
         ></VideoList>
-
       </Col>
     </Container>
   );

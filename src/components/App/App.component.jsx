@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '../Layout';
 import Header from '../Header';
@@ -11,7 +10,6 @@ import FavoritesViewDetail from '../../pages/FavoritesViewDetail/FavoritesViewDe
 import AuthProvider from '../AuthProvider';
 
 function App() {
-  
   return (
     <BrowserRouter>
       <AppState>
@@ -39,7 +37,6 @@ function App() {
         </Layout>
       </AppState>
     </BrowserRouter>
-
   );
 }
 
