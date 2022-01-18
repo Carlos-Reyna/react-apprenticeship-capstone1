@@ -1,30 +1,35 @@
 import React, { useState, useContext } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import loginApi from '../../utils/login.api';
+import { Modal, Button, Form, Alert } from 'react-bootstrap';
+//import loginApi from '../../utils/login.api';
 import appContext from '../../context/appContext';
 import {
   CustomModalHeader,
   CustomModalBody,
   CustomModalFooter,
 } from '../CustomElements';
+import firebaseAuth from '../../utils/firebaseAuth';
 function Login({ show, setShow }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-
+  const [showAlert, setShowAlert] = useState(false);
   const thisContext = useContext(appContext);
   const { setSession, styles } = thisContext;
 
   const handleClose = () => {
+    setUserName('');
+    setPassword('');
     setShow(false);
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await loginApi(userName, password);
-      setSession(response);
-      setUserName('');
-      setPassword('');
+      const response = await firebaseAuth(userName, password);
+      if (response === null) {
+        setShowAlert(true);
+      }
+      setSession(response.uid);
+
       handleClose();
     } catch (err) {
       console.log(err);
@@ -67,6 +72,15 @@ function Login({ show, setShow }) {
             />
           </Form.Group>
         </Form>
+        {showAlert ? (
+          <Alert
+            variant="danger"
+            style={{ 'margin-top': '5px' }}
+            onClick={() => setShowAlert(false)}
+          >
+            Email or password not found
+          </Alert>
+        ) : null}
       </CustomModalBody>
       <CustomModalFooter
         elementbackground={styles.customCard.backgroundColor}

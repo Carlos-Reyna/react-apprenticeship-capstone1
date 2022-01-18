@@ -1,7 +1,12 @@
 import React, { useReducer } from 'react';
 import appContext from './appContext';
 import appReducer from './appReducer';
-import { USER_DEFAULT_PROPS, LIGHT_STYLE, DARK_STYLE } from '../utils/const';
+import {
+  USER_DEFAULT_PROPS,
+  LIGHT_STYLE,
+  DARK_STYLE,
+  MOCK_CREDENTIALS,
+} from '../utils/const';
 function AppState(props) {
   const initialState = {
     searchTerm: '',
@@ -29,8 +34,8 @@ function AppState(props) {
     dispatch({ payload: value, type: 'UPDATE_UI_MODE', styles: newStyles });
   };
 
-  const setSession = (user) => {
-    dispatch({ payload: user, type: 'USER_LOGIN' });
+  const setSession = (id) => {
+    dispatch({ payload: { ...MOCK_CREDENTIALS, id: id }, type: 'USER_LOGIN' });
   };
 
   const logout = () => {

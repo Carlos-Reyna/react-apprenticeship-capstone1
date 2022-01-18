@@ -7,7 +7,8 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import VideoDetailsView from '../../pages/VideoDetailsView';
 import FavoritesView from '../../pages/FavoritesView/FavoritesView.page';
 import FavoritesViewDetail from '../../pages/FavoritesViewDetail/FavoritesViewDetail.page';
-import AuthProvider from '../AuthProvider';
+import ValidateSession from '../ValidateSession';
+import NotFound from '../../pages/NotFound';
 
 function App() {
   return (
@@ -23,16 +24,19 @@ function App() {
               <VideoDetailsView></VideoDetailsView>
             </Route>
             <Route path={'/favorites'}>
-              <AuthProvider>
+              <ValidateSession>
                 <FavoritesView></FavoritesView>
-              </AuthProvider>
+              </ValidateSession>
             </Route>
             <Route path={'/playFavorites'}>
-              <AuthProvider>
+              <ValidateSession>
                 <FavoritesViewDetail></FavoritesViewDetail>
-              </AuthProvider>
+              </ValidateSession>
             </Route>
             <Route exact path="/" render={() => <Redirect to="/home" />} />
+            <Route path="*">
+              <NotFound />
+            </Route>
           </Switch>
         </Layout>
       </AppState>
