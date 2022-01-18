@@ -1,8 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import HomeView from '../pages/HomeView/Homeview.page';
-import AppContext from '../context/appContext';
+import VideoDetailView from '../pages/VideoDetailsView/VideoDetailView.page';
 import { MOCK_CREDENTIALS } from '../utils/const';
+import AppContext from '../context/appContext';
+import { MemoryRouter } from 'react-router-dom';
+
 const toggleStyles = (value) => {
   return value;
 };
@@ -18,17 +20,19 @@ let initialState = {
     customCard: { backgroundColor: '#fff', fontColor: '#000' },
     layout: { backgroundColor: 'antiquewhite', fontColor: '#000000' },
   },
+  userProps: MOCK_CREDENTIALS,
   toggleStyles,
   setSearchTerm,
-  userProps: MOCK_CREDENTIALS,
 };
 
 describe('Testing the component elements', () => {
-  test('Component is rendered', () => {
+  test('Card Title is rendered', () => {
     render(
-      <AppContext.Provider value={initialState}>
-        <HomeView />
-      </AppContext.Provider>
+      <MemoryRouter>
+        <AppContext.Provider value={initialState}>
+          <VideoDetailView></VideoDetailView>
+        </AppContext.Provider>
+      </MemoryRouter>
     );
   });
 });

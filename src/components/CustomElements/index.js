@@ -3,4 +3,8 @@ export {
   Description,
   CustomCard,
   VideoThumbnail,
-} from './CustomElement.component';
+  CustomModalHeader,
+  CustomModalBody,
+  CustomModalFooter,
+} from './CustomElement.styles';
+

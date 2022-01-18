@@ -1,6 +1,6 @@
 .container-layout {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   margin-right: 0 !important;
   margin-left: 0 !important;
   padding-left: 0 !important;

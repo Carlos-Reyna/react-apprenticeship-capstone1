@@ -5,15 +5,28 @@ import {
   Description,
   CustomCard,
   VideoThumbnail,
-} from '../CustomElements/CustomElement.component';
+} from '../CustomElements/CustomElement.styles';
 import './VideoList.styles.css';
+import { useHistory } from 'react-router-dom';
 
 function VideoList(props) {
+
+  let history = useHistory();
+
   const handleClick = (video) => {
-    props.handleSelectVideo(video);
+    navigateURL(video);
   };
 
-return (
+  const navigateURL = (video) => {
+    if (props.privateRoute) {
+      history.push(`/playFavorites?videoId=${video.id.videoId}`);
+    } else {
+      history.push(`/play?videoId=${video.id.videoId}`);
+    }
+  };
+
+  return (
+
     <Row>
       {props.videos.map((video) => {
         return (
@@ -25,14 +38,29 @@ return (
             lg={3}
             className="card-container"
           >
-            <CustomCard onClick={() => handleClick(video)}>
+            <CustomCard
+              title="customCard-videoList"
+              cursor={'pointer'}
+              onClick={() => handleClick(video)}
+              elementBackground={props.styles.customCard.backgroundColor}
+            >
+
               <VideoThumbnail
                 src={video.snippet.thumbnails.medium.url}
                 data-testid="header-component-thumbnail"
+                title="video-thumbnail"
               ></VideoThumbnail>
 
-              <Title>{video.snippet.title}</Title>
-              <Description>{video.snippet.description}</Description>
+              <Title
+                fontColor={props.styles.customCard.fontColor}
+                title="video-title"
+              >
+                {video.snippet.title}
+              </Title>
+              <Description title="video-description">
+                {video.snippet.description}
+              </Description>
+
             </CustomCard>
           </Col>
         );
@@ -40,4 +68,5 @@ return (
     </Row>
   );
 }
+
 export default VideoList;

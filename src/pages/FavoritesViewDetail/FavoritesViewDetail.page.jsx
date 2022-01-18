@@ -1,14 +1,13 @@
-import React, { useState, useContext } from 'react';
-import VideoList from '../../components/VideoList';
-import useYoutubeRelatedSearch from '../../utils/hooks/useYoutubeRelatedSearch';
-import useYoutubeVideo from '../../utils/hooks/useYoutubeVideo';
-import { useLocation } from 'react-router-dom';
-import './VideoDetailView.styles.css';
+import React, { useContext, useState, useEffect } from 'react';
 import VideoDetail from '../../components/VideoDetail';
 import appContext from '../../context/appContext';
+import { useLocation } from 'react-router-dom';
+import useYoutubeVideo from '../../utils/hooks/useYoutubeVideo';
+import VideoList from '../../components/VideoList';
 import { Container, Row, Col } from 'react-bootstrap';
+import { storage } from '../../utils/storage';
 
-function VideoDetailView() {
+function FavoritesViewDetail() {
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const thisContext = useContext(appContext);
@@ -18,7 +17,16 @@ function VideoDetailView() {
 
   useYoutubeVideo(query.get('videoId'), setSelectedVideo);
 
-  useYoutubeRelatedSearch(query.get('videoId'), setRelatedVideos);
+  useEffect(() => {
+    try {
+      const item = storage.get(userProps.id);
+      if (item !== null) {
+        setRelatedVideos(item);
+      }
+    } catch (err) {
+      setRelatedVideos([]);
+    }
+  }, [selectedVideo]);
 
   return (
     <Container>
@@ -30,14 +38,13 @@ function VideoDetailView() {
               selectedVideo={selectedVideo}
               isLogged={isLogged}
               userId={userProps.id}
-              isPrivateRoute={false}
+              isPrivateRoute={true}
             ></VideoDetail>
           ) : null}
-
           <VideoList
             videos={relatedVideos}
             styles={styles}
-            userId={userProps.id}
+            privateRoute={true}
           ></VideoList>
         </Col>
       </Row>
@@ -51,5 +58,4 @@ function useQuery() {
   return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-
-export default VideoDetailView;
+export default FavoritesViewDetail;

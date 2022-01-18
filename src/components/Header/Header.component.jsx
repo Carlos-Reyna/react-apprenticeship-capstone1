@@ -1,25 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Header.styles.css';
-import { Container, Form, Row, Col } from 'react-bootstrap';
-import styled from 'styled-components';
+import { Container, Form, Row, Col, Dropdown } from 'react-bootstrap';
+import appContext from '../../context/appContext';
+import Login from '../login/Login.component';
+import { useHistory } from 'react-router-dom';
 
-const HeaderButton = styled.button`
-  background-color: #1c1c1c;
-  color: #f1f1f1;
-  border-radius: 0;
-  border: none;
-  margin: 0;
-`;
 
-function Header({ searchTerm, setSearchTerm, handleSearch }) {
+function Header() {
+  const [searchValue, setSearchValue] = useState('');
   const [switchValue, setSwitchValue] = useState(false);
+  const [show, setShow] = useState(false);
+  let history = useHistory();
+  const handleShow = () => setShow(true);
+  const handleModal = () => setShow(!show);
+  const thisContext = useContext(appContext);
+  const {
+    searchTerm,
+    setSearchTerm,
+    toggleStyles,
+    userProps,
+    isLogged,
+    logout,
+  } = thisContext;
 
   const handleChange = (e) => {
-    setSearchTerm(e.target.value);
+    setSearchValue(e.target.value);
   };
 
   const handleSwitch = () => {
     setSwitchValue(!switchValue);
+    toggleStyles(!switchValue);
+  };
+
+  const navigateURL = (path) => {
+    history.push(`/${path}`);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (searchTerm !== searchValue) {
+      setSearchTerm(searchValue);
+      navigateURL('home');
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigateURL('home');
+
   };
 
   return (
@@ -27,39 +55,85 @@ function Header({ searchTerm, setSearchTerm, handleSearch }) {
       <Container className="form-search">
         <Row>
           <Col xs={12} sm={6} md={6}>
-            <Form>
+            <Form onSubmit={(e) => handleSubmit(e)}>
               <Form.Group controlId="formSearch">
                 <Form.Control
                   type="text"
-                  data-testid="header-input-search"
+                  title="header-input-search"
                   placeholder="..."
-                  value={searchTerm}
+                  value={searchValue}
                   onChange={(e) => handleChange(e)}
-                  onKeyPress={(e) => handleSearch(e)}
                 />
               </Form.Group>
             </Form>
           </Col>
-          <Col sm={5} md={5} className="d-none d-sm-block d-xs-block">
+          <Col
+            sm={5}
+            md={5}
+            className="d-none d-sm-block d-xs-block switch-container"
+          >
             <Form>
               <Form.Check
                 type="switch"
                 id="custom-switch"
-                data-testid="header-input-switch"
+                title="header-input-switch"
                 label="Toggle Style"
-                checked={switchValue}
+                value={switchValue}
                 onChange={handleSwitch}
                 style={{ float: 'right' }}
               />
             </Form>
           </Col>
           <Col sm={1} md={1} className="d-none d-sm-block d-xs-block">
-            <HeaderButton data-testid="header-btn-login">
-              <i
-                className="fa fa-user-circle fa-2x"
-                style={{ float: 'right' }}
-              ></i>
-            </HeaderButton>
+            <Dropdown>
+              <Dropdown.Toggle
+                id="dropdown-menu-login"
+                title="header-button-login"
+              >
+                {isLogged ? (
+                  <img
+                    src={userProps.avatarUrl}
+                    className="user"
+                    alt="user-logo"
+                  ></img>
+                ) : (
+                  <i
+                    className="fa fa-user-circle fa-2x user"
+                    style={{ float: 'right' }}
+                  ></i>
+                )}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {isLogged ? (
+                  <Dropdown.Item
+                    onClick={() => {
+                      navigateURL('favorites');
+                    }}
+                  >
+                    Favorites
+                  </Dropdown.Item>
+                ) : null}
+                {isLogged ? (
+                  <Dropdown.Item
+                    tag={'Link'}
+                    onClick={(e) => {
+                      handleLogout(e);
+                    }}
+                  >
+                    Logout
+                  </Dropdown.Item>
+                ) : (
+                  <Dropdown.Item onClick={handleModal}>Login</Dropdown.Item>
+                )}
+              </Dropdown.Menu>
+            </Dropdown>
+
+            <Login
+              show={show}
+              setShow={setShow}
+              handleShow={handleShow}
+            ></Login>
           </Col>
         </Row>
       </Container>

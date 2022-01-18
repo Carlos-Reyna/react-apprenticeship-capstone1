@@ -1,4 +1,4 @@
 .card-container {
   margin-top: 2vh !important;
-  max-height: 30vh;
+  min-height: 30vh !important;
 }
