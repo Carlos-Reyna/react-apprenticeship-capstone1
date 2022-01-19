@@ -1,4 +1,22 @@
 .card-container {
   margin-top: 2vh !important;
   min-height: 30vh !important;
+  position: relative;
+  z-index: 0;
+}
+
+.heart {
+  width: 100px;
+  position: absolute;
+  top: 38%;
+  left: 75%;
+  z-index: 1;
+  font-size: 1.6rem;
+  color: pink;
+  display: none;
+  cursor: pointer;
+}
+
+.card-container:hover .heart {
+  display: block;
 }

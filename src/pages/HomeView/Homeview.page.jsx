@@ -10,7 +10,8 @@ function HomeView() {
   const [performSearch, setPerformSearch] = useState(true);
   const thisContext = useContext(appContext);
   const [showError, setShowError] = useState(false);
-  const { styles, videos, setVideos, searchTerm, userProps } = thisContext;
+  const { styles, videos, setVideos, searchTerm, userProps, isLogged } =
+    thisContext;
 
   useEffect(() => {
     const getVideos = () => {
@@ -36,6 +37,7 @@ function HomeView() {
           videos={videos}
           styles={styles}
           privateRoute={false}
+          isLogged={isLogged}
           userId={userProps.id}
         />
       </Col>

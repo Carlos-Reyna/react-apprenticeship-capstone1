@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import {
   Title,
@@ -8,7 +8,7 @@ import {
 } from '../CustomElements/CustomElement.styles';
 import './VideoList.styles.css';
 import { useHistory } from 'react-router-dom';
-
+import { storage } from '../../utils/storage';
 function VideoList(props) {
   let history = useHistory();
 
@@ -22,6 +22,16 @@ function VideoList(props) {
     } else {
       history.push(`/play?videoId=${video.id.videoId}`);
     }
+  };
+
+  const setFavorite = (video) => {
+    storage.set(props.userId, video);
+    // return videoId
+  };
+
+  const removeFavorite = (video) => {
+    storage.remove(props.userId, video);
+    //return videoId
   };
 
   return (
@@ -58,10 +68,55 @@ function VideoList(props) {
                 {video.snippet.description}
               </Description>
             </CustomCard>
+            {props.isLogged ? (
+              <LikeButton
+                video={video}
+                setFavorite={setFavorite}
+                userId={props.userId}
+                removeFavorite={removeFavorite}
+              />
+            ) : null}
           </Col>
         );
       })}
     </Row>
+  );
+}
+
+function LikeButton({ video, setFavorite, userId, removeFavorite }) {
+  const [isFavorite, setIsFavorite] = useState(false);
+  useEffect(() => {
+    if (storage.find(userId, video.id.videoId) === null) {
+      console.log('false');
+      setIsFavorite(false);
+    } else {
+      console.log('true');
+      setIsFavorite(true);
+    }
+  }, []);
+
+  return (
+    <div className="heart">
+      {!isFavorite ? (
+        <i
+          className="fa fa-heart-o"
+          aria-hidden="true"
+          onClick={() => {
+            setFavorite(video);
+            setIsFavorite(true);
+          }}
+        />
+      ) : (
+        <i
+          className="fa fa-heart"
+          aria-hidden="true"
+          onClick={() => {
+            removeFavorite(video);
+            setIsFavorite(false);
+          }}
+        />
+      )}
+    </div>
   );
 }
 

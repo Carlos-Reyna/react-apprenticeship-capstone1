@@ -19,12 +19,13 @@ function VideoDetail({
   useEffect(() => {
     const result = storage.find(userId, selectedVideo.id);
     if (result !== null) {
-      setIsFavorite(result.favorite);
+      setIsFavorite(true);
     } else {
       setIsFavorite(false);
     }
-  }, [selectedVideo]);
+  }, [selectedVideo, isLogged]);
 
+  //TODO: Remove the is favorite flag, is useless in the logic of the app.
   const addToFavorites = () => {
     storage.set(userId, {
       ...selectedVideo,

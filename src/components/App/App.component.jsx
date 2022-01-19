@@ -9,7 +9,9 @@ import FavoritesView from '../../pages/FavoritesView/FavoritesView.page';
 import FavoritesViewDetail from '../../pages/FavoritesViewDetail/FavoritesViewDetail.page';
 import ValidateSession from '../ValidateSession';
 import NotFound from '../../pages/NotFound';
-
+/*eslint-disable */
+import firebase from '../../utils/firebaseConfig'; 
+/*eslint-enable */
 function App() {
   return (
     <BrowserRouter>

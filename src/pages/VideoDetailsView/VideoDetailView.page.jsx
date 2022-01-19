@@ -21,7 +21,6 @@ function VideoDetailView() {
   useYoutubeVideo(query.get('videoId'), setSelectedVideo, setShowError);
 
   useYoutubeRelatedSearch(query.get('videoId'), setRelatedVideos);
-
   return (
     <Container>
       <Row>
