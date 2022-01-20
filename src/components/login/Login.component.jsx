@@ -1,37 +1,42 @@
 import React, { useState, useContext } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import loginApi from '../../utils/login.api';
+import { Modal, Button, Form, Alert } from 'react-bootstrap';
+import ReactDOM from 'react-dom';
 import appContext from '../../context/appContext';
 import {
   CustomModalHeader,
   CustomModalBody,
   CustomModalFooter,
 } from '../CustomElements';
+import firebaseAuth from '../../utils/firebaseAuth';
 function Login({ show, setShow }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-
+  const [showAlert, setShowAlert] = useState(false);
   const thisContext = useContext(appContext);
   const { setSession, styles } = thisContext;
 
   const handleClose = () => {
+    setUserName('');
+    setPassword('');
     setShow(false);
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await loginApi(userName, password);
-      setSession(response);
-      setUserName('');
-      setPassword('');
-      handleClose();
+      const response = await firebaseAuth(userName, password);
+      if (response === null) {
+        setShowAlert(true);
+      } else {
+        setSession(response.uid);
+        handleClose();
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
-  return (
+  return ReactDOM.createPortal(
     <Modal show={show} onHide={handleClose}>
       <CustomModalHeader
         closeButton
@@ -67,6 +72,16 @@ function Login({ show, setShow }) {
             />
           </Form.Group>
         </Form>
+        {showAlert ? (
+          <Alert
+            title="login-alert"
+            variant="danger"
+            style={{ marginTop: '5px' }}
+            onClick={() => setShowAlert(false)}
+          >
+            Email or password not found
+          </Alert>
+        ) : null}
       </CustomModalBody>
       <CustomModalFooter
         elementbackground={styles.customCard.backgroundColor}
@@ -83,7 +98,8 @@ function Login({ show, setShow }) {
           Submit
         </Button>
       </CustomModalFooter>
-    </Modal>
+    </Modal>,
+    document.getElementById('modal')
   );
 }
 

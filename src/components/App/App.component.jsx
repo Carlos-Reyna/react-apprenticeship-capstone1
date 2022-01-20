@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '../Layout';
 import Header from '../Header';
@@ -8,10 +7,12 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import VideoDetailsView from '../../pages/VideoDetailsView';
 import FavoritesView from '../../pages/FavoritesView/FavoritesView.page';
 import FavoritesViewDetail from '../../pages/FavoritesViewDetail/FavoritesViewDetail.page';
-import AuthProvider from '../AuthProvider';
-
+import ValidateSession from '../ValidateSession';
+import NotFound from '../../pages/NotFound';
+/*eslint-disable */
+import firebase from '../../utils/firebaseConfig'; 
+/*eslint-enable */
 function App() {
-  
   return (
     <BrowserRouter>
       <AppState>
@@ -25,21 +26,23 @@ function App() {
               <VideoDetailsView></VideoDetailsView>
             </Route>
             <Route path={'/favorites'}>
-              <AuthProvider>
+              <ValidateSession>
                 <FavoritesView></FavoritesView>
-              </AuthProvider>
+              </ValidateSession>
             </Route>
             <Route path={'/playFavorites'}>
-              <AuthProvider>
+              <ValidateSession>
                 <FavoritesViewDetail></FavoritesViewDetail>
-              </AuthProvider>
+              </ValidateSession>
             </Route>
             <Route exact path="/" render={() => <Redirect to="/home" />} />
+            <Route path="*">
+              <NotFound />
+            </Route>
           </Switch>
         </Layout>
       </AppState>
     </BrowserRouter>
-
   );
 }
 

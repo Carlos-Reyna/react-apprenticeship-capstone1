@@ -5,7 +5,6 @@ import appContext from '../../context/appContext';
 import Login from '../login/Login.component';
 import { useHistory } from 'react-router-dom';
 
-
 function Header() {
   const [searchValue, setSearchValue] = useState('');
   const [switchValue, setSwitchValue] = useState(false);
@@ -47,7 +46,6 @@ function Header() {
   const handleLogout = () => {
     logout();
     navigateURL('home');
-
   };
 
   return (
@@ -95,6 +93,7 @@ function Header() {
                     src={userProps.avatarUrl}
                     className="user"
                     alt="user-logo"
+                    title="img"
                   ></img>
                 ) : (
                   <i
@@ -107,6 +106,7 @@ function Header() {
               <Dropdown.Menu>
                 {isLogged ? (
                   <Dropdown.Item
+                    title="header-favorites-dropdown"
                     onClick={() => {
                       navigateURL('favorites');
                     }}
@@ -116,6 +116,7 @@ function Header() {
                 ) : null}
                 {isLogged ? (
                   <Dropdown.Item
+                    title="header-logout-dropdown"
                     tag={'Link'}
                     onClick={(e) => {
                       handleLogout(e);

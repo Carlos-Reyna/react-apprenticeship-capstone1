@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import appContext from '../../context/appContext';
-function AuthProvider(props) {
+function ValidateSession(props) {
   const thisContext = useContext(appContext);
   const { isLogged } = thisContext;
 
@@ -16,4 +16,4 @@ function AuthProvider(props) {
   }
 }
 
-export default AuthProvider;
+export default ValidateSession;

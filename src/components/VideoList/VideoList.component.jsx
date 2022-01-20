@@ -8,9 +8,9 @@ import {
 } from '../CustomElements/CustomElement.styles';
 import './VideoList.styles.css';
 import { useHistory } from 'react-router-dom';
-
+import { storage } from '../../utils/storage';
+import LikeButton from '../LikeButton';
 function VideoList(props) {
-
   let history = useHistory();
 
   const handleClick = (video) => {
@@ -25,8 +25,17 @@ function VideoList(props) {
     }
   };
 
-  return (
+  const setFavorite = (video) => {
+    storage.set(props.userId, video);
+    // return videoId
+  };
 
+  const removeFavorite = (video) => {
+    storage.remove(props.userId, video);
+    //return videoId
+  };
+
+  return (
     <Row>
       {props.videos.map((video) => {
         return (
@@ -44,7 +53,6 @@ function VideoList(props) {
               onClick={() => handleClick(video)}
               elementBackground={props.styles.customCard.backgroundColor}
             >
-
               <VideoThumbnail
                 src={video.snippet.thumbnails.medium.url}
                 data-testid="header-component-thumbnail"
@@ -60,8 +68,15 @@ function VideoList(props) {
               <Description title="video-description">
                 {video.snippet.description}
               </Description>
-
             </CustomCard>
+            {props.isLogged ? (
+              <LikeButton
+                video={video}
+                setFavorite={setFavorite}
+                userId={props.userId}
+                removeFavorite={removeFavorite}
+              />
+            ) : null}
           </Col>
         );
       })}

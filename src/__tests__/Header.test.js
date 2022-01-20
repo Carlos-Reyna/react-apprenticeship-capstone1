@@ -1,14 +1,33 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import Header from '../components/Header/Header.component';
 import React from 'react';
 import AppContext from '../context/appContext';
 import { MemoryRouter } from 'react-router';
+import { MOCK_CREDENTIALS, USER_DEFAULT_PROPS } from '../utils/const';
+
+beforeEach(() => {
+  let portalRoot = document.getElementById('modal');
+  if (!portalRoot) {
+    portalRoot = document.createElement('div');
+    portalRoot.setAttribute('id', 'modal');
+    document.body.appendChild(portalRoot);
+  }
+});
+
 const toggleStyles = (value) => {
   return value;
 };
 
 const setSearchTerm = (value) => {
   initialState.searchTerm = value;
+};
+
+const logout = () => {
+  initialState = {
+    ...initialState,
+    userProps: USER_DEFAULT_PROPS,
+    isLogged: false,
+  };
 };
 
 let initialState = {
@@ -18,8 +37,11 @@ let initialState = {
     customCard: { backgroundColor: '#fff', fontColor: '#000' },
     layout: { backgroundColor: 'antiquewhite', fontColor: '#000000' },
   },
+  isLogged: true,
+  userProps: MOCK_CREDENTIALS,
   toggleStyles,
   setSearchTerm,
+  logout,
 };
 
 const mockHistoryPush = jest.fn();
@@ -124,5 +146,25 @@ describe('Testing the component elements', () => {
     fireEvent.change(searchInput, { target: { value: 'wizeline' } });
     fireEvent.submit(searchInput);
     expect(initialState.searchTerm).toEqual('wizeline');
+  });
+
+  test('Test logout', async () => {
+    const { getByTitle } = render(
+      <MemoryRouter>
+        <AppContext.Provider value={initialState}>
+          <Header />
+        </AppContext.Provider>
+      </MemoryRouter>
+    );
+    const btnLogin = getByTitle('header-button-login');
+
+    // fireEvent.submit(searchInput);
+    //expect(initialState.searchTerm).toEqual('wizeline');
+    await waitFor(() => {
+      fireEvent.click(btnLogin);
+      const logoutOption = getByTitle('header-logout-dropdown');
+      fireEvent.click(logoutOption);
+      expect(initialState.isLogged).toEqual(false);
+    });
   });
 });

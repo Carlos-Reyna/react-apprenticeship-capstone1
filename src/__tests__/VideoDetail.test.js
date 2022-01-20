@@ -208,4 +208,25 @@ describe('Testing the component elements', () => {
     const btnAdd = queryByTitle('btn-videoDetail-add');
     expect(btnAdd).not.toBeInTheDocument();
   });
+
+  test('Add to favorites button event', () => {
+    const { getByTitle } = render(
+      <MemoryRouter>
+        <AppContext.Provider value={initialState}>
+          <VideoDetail
+            styles={initialState.styles}
+            selectedVideo={selectedVideo}
+            isLogged={true}
+          />
+        </AppContext.Provider>
+      </MemoryRouter>
+    );
+
+    const btnAdd = getByTitle('btn-videoDetail-add');
+    fireEvent.click(btnAdd);
+    const btnRemove = getByTitle('btn-videoDetail-remove');
+    fireEvent.click(btnRemove);
+
+    expect(btnAdd).toBeInTheDocument();
+  });
 });
