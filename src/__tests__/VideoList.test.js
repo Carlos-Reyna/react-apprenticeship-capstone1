@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import VideoList from '../components/VideoList/VideoList.component';
 import { MockService } from '../utils/MockService';
 import AppContext from '../context/appContext';
@@ -86,5 +86,53 @@ describe('Testing the component elements', () => {
     );
     const description = queryAllByTitle('video-description');
     expect(description.length).toEqual(0);
+  });
+
+  test('Card Like buttons is displayed with active session', () => {
+    const { queryAllByTitle } = render(
+      <MemoryRouter>
+        <AppContext.Provider value={initialState}>
+          <VideoList
+            videos={items}
+            styles={initialState.styles}
+            isLogged={true}
+          />
+        </AppContext.Provider>
+      </MemoryRouter>
+    );
+    const LikeButton = queryAllByTitle('no-favorite-icon');
+    expect(LikeButton.length).toEqual(24);
+  });
+
+  test('Card is clickeable on private route', () => {
+    const { getAllByTitle } = render(
+      <MemoryRouter>
+        <AppContext.Provider value={initialState}>
+          <VideoList
+            videos={items}
+            styles={initialState.styles}
+            privateRoute={true}
+          />
+        </AppContext.Provider>
+      </MemoryRouter>
+    );
+    const card = getAllByTitle('customCard-videoList')[0];
+    fireEvent.click(card);
+  });
+
+  test('Card is clickeable on public route', () => {
+    const { getAllByTitle } = render(
+      <MemoryRouter>
+        <AppContext.Provider value={initialState}>
+          <VideoList
+            videos={items}
+            styles={initialState.styles}
+            privateRoute={false}
+          />
+        </AppContext.Provider>
+      </MemoryRouter>
+    );
+    const card = getAllByTitle('customCard-videoList')[0];
+    fireEvent.click(card);
   });
 });

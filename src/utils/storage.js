@@ -20,7 +20,6 @@ const storage = {
     }
   },
   find(key, videoId) {
-    console.log(key);
     const items = this.get(key);
     if (items !== null) {
       const favorite = items.find((video) => video.id.videoId === videoId);

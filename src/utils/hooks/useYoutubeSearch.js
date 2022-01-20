@@ -9,6 +9,8 @@ export default function useYoutubeSearch(searchTerm, setVideos, setShowError) {
         var { items } = await resultJson.json();
         if (items.length !== 0) {
           setVideos(items);
+        } else {
+          setShowError(true);
         }
       } catch (err) {
         setShowError(true);

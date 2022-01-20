@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import {
   Title,
@@ -9,6 +9,7 @@ import {
 import './VideoList.styles.css';
 import { useHistory } from 'react-router-dom';
 import { storage } from '../../utils/storage';
+import LikeButton from '../LikeButton';
 function VideoList(props) {
   let history = useHistory();
 
@@ -80,43 +81,6 @@ function VideoList(props) {
         );
       })}
     </Row>
-  );
-}
-
-function LikeButton({ video, setFavorite, userId, removeFavorite }) {
-  const [isFavorite, setIsFavorite] = useState(false);
-  useEffect(() => {
-    if (storage.find(userId, video.id.videoId) === null) {
-      console.log('false');
-      setIsFavorite(false);
-    } else {
-      console.log('true');
-      setIsFavorite(true);
-    }
-  }, []);
-
-  return (
-    <div className="heart">
-      {!isFavorite ? (
-        <i
-          className="fa fa-heart-o"
-          aria-hidden="true"
-          onClick={() => {
-            setFavorite(video);
-            setIsFavorite(true);
-          }}
-        />
-      ) : (
-        <i
-          className="fa fa-heart"
-          aria-hidden="true"
-          onClick={() => {
-            removeFavorite(video);
-            setIsFavorite(false);
-          }}
-        />
-      )}
-    </div>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
-//import loginApi from '../../utils/login.api';
+import ReactDOM from 'react-dom';
 import appContext from '../../context/appContext';
 import {
   CustomModalHeader,
@@ -27,16 +27,16 @@ function Login({ show, setShow }) {
       const response = await firebaseAuth(userName, password);
       if (response === null) {
         setShowAlert(true);
+      } else {
+        setSession(response.uid);
+        handleClose();
       }
-      setSession(response.uid);
-
-      handleClose();
     } catch (err) {
       console.log(err);
     }
   };
 
-  return (
+  return ReactDOM.createPortal(
     <Modal show={show} onHide={handleClose}>
       <CustomModalHeader
         closeButton
@@ -74,8 +74,9 @@ function Login({ show, setShow }) {
         </Form>
         {showAlert ? (
           <Alert
+            title="login-alert"
             variant="danger"
-            style={{ 'margin-top': '5px' }}
+            style={{ marginTop: '5px' }}
             onClick={() => setShowAlert(false)}
           >
             Email or password not found
@@ -97,7 +98,8 @@ function Login({ show, setShow }) {
           Submit
         </Button>
       </CustomModalFooter>
-    </Modal>
+    </Modal>,
+    document.getElementById('modal')
   );
 }
 
